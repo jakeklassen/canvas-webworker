@@ -4,6 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "repbuild": "rimraf dist",
+    "build": "parcel build index.html",
+    "deploy": "yarn run build && surge dist/ --domain worker-canvas.surge.sh",
     "start": "parcel index.html"
   },
   "devDependencies": {
@@ -13,6 +16,7 @@
     "@types/mainloop.js": "^1.0.5",
     "parcel-bundler": "^1.11.0",
     "prettier": "^1.15.3",
+    "surge": "^0.20.1",
     "typescript": "^3.2.2",
     "typescript-tslint-plugin": "^0.2.1"
   },
