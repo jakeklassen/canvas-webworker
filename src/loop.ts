@@ -2,7 +2,7 @@ import { createFixedLengthList } from './utils/fixed-length-list';
 
 const rand = (min: number, max: number) => Math.random() * (max - min) + min;
 
-const createSquare = () => {
+const createSquare = (image: ImageBitmapSource) => {
   const position = { x: rand(0, 630), y: rand(0, 470) };
   const velocity = { x: rand(0, 300), y: rand(0, 300) };
 
@@ -10,6 +10,7 @@ const createSquare = () => {
     position,
     velocity,
     color: `rgba(${rand(0, 255)}, ${rand(0, 255)}, ${rand(0, 255)}, 1)`,
+    image,
     collider: {
       width: 10,
       height: 10,
@@ -29,7 +30,7 @@ const createSquare = () => {
   };
 };
 
-const squares = Array.from({ length: 4000 }, () => createSquare());
+let squares = [];
 
 let width;
 let height;
@@ -74,12 +75,7 @@ function frame(hrt: DOMHighResTimeStamp) {
       square.velocity.y *= -1;
     }
 
-    wctx.fillRect(
-      square.position.x,
-      square.position.y,
-      square.collider.width,
-      square.collider.height,
-    );
+    wctx.drawImage(square.image, square.position.x, square.position.y);
   }
 
   wctx.fillStyle = 'black';
@@ -87,19 +83,20 @@ function frame(hrt: DOMHighResTimeStamp) {
   wctx.fillStyle = 'white';
   wctx.fillText(averageFps.toString(), width - 30, 20);
   wctx.fillText(`squares: ${squares.length}`, width - 80, 40);
-  // wctx.fillText(`{ x: ${square.position.x}, y: ${square.position.y} }`, 10, 40);
-  // wctx.fillText(`{ hrt: ${hrt} }`, 10, 60);
 
   last = hrt;
 }
 
 self.onmessage = event => {
   if (event.data.event === 'start') {
+    const assets = event.data.assets;
     wbuffer = event.data.buffer as OffscreenCanvas;
     wctx = wbuffer.getContext('2d');
 
     width = wbuffer.width;
     height = wbuffer.height;
+
+    squares = Array.from({ length: 100 }, () => createSquare(assets.square));
 
     requestAnimationFrame(frame);
   }

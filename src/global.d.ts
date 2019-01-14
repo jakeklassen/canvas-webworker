@@ -40,3 +40,5 @@ declare var OffscreenCanvas: {
 };
 
 // type Transferable = ArrayBuffer | MessagePort | ImageBitmap | OffscreenCanvas;
+
+declare module '*.png';
