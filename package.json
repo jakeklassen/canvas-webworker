@@ -4,21 +4,12 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "repbuild": "rimraf dist",
-    "build": "parcel build index.html",
-    "deploy": "yarn run build && surge dist/ --domain worker-canvas.surge.sh",
-    "start": "parcel index.html"
+    "start": "npx serve -n ."
   },
   "devDependencies": {
-    "@babel/core": "^7.6.2",
-    "@babel/polyfill": "^7.6.0",
-    "@babel/preset-env": "^7.6.2",
     "@types/mainloop.js": "^1.0.5",
-    "parcel-bundler": "^1.12.3",
     "prettier": "^2.2.1",
-    "surge": "^0.21.3",
-    "typescript": "^4.1.3",
-    "typescript-tslint-plugin": "^1.0.1"
+    "typescript": "^4.1.3"
   },
   "dependencies": {
     "mainloop.js": "^1.0.4"

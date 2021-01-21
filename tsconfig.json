@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es2017",
-    "lib": ["dom", "es2017"],
-    "module": "commonjs",
-    "plugins": [
-      {
-        "name": "typescript-tslint-plugin"
-      }
-    ]
+    "lib": ["ES2020", "DOM"],
+    "module": "ESNext",
+    "target": "ES2020",
+    "declarationDir": "types",
+    "declaration": true,
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "strict": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*.js", "src/**/*.d.ts"],
   "exclude": [".git", "node_modules"]
 }

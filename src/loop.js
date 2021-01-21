@@ -1,6 +1,11 @@
-import { createFixedLengthList } from './utils/fixed-length-list';
+import { createFixedLengthList } from './utils/fixed-length-list.js';
 
-const rand = (min: number, max: number) => Math.random() * (max - min) + min;
+/**
+ * Generate random number in range
+ * @param {number} min
+ * @param {number} max
+ */
+const rand = (min, max) => Math.random() * (max - min) + min;
 
 const createSquare = () => {
   const position = { x: rand(0, 630), y: rand(0, 470) };
@@ -29,17 +34,31 @@ const createSquare = () => {
   };
 };
 
-const squares = Array.from({ length: 4000 }, () => createSquare());
+const squares = Array.from({ length: 4000 }, createSquare);
 
-let width;
-let height;
-let wbuffer: OffscreenCanvas;
-let wctx: OffscreenCanvasRenderingContext2D;
+let width = 0;
+let height = 0;
+/**
+ * @type {OffscreenCanvas}
+ */
+let wbuffer;
+/**
+ * @type {OffscreenCanvasRenderingContext2D}
+ */
+let wctx;
 let last = performance.now();
 let dt = 0;
-const dts = createFixedLengthList<number>(10);
 
-function frame(hrt: DOMHighResTimeStamp) {
+/**
+ * @type {import('./utils/fixed-length-list-type').FixedLengthList<number>}
+ */
+const dts = createFixedLengthList(10);
+
+/**
+ * Frame function
+ * @param {DOMHighResTimeStamp} hrt
+ */
+function frame(hrt) {
   requestAnimationFrame(frame);
 
   // Seems like the worker `hrt` is not reset on reload so
@@ -93,10 +112,15 @@ function frame(hrt: DOMHighResTimeStamp) {
   last = hrt;
 }
 
-self.onmessage = event => {
+/**
+ * @param {MessageEvent} event
+ */
+self.onmessage = (event) => {
   if (event.data.event === 'start') {
-    wbuffer = event.data.buffer as OffscreenCanvas;
-    wctx = wbuffer.getContext('2d');
+    wbuffer = /** @type {OffscreenCanvas} */ event.data.buffer;
+    wctx = /** @type {OffscreenCanvasRenderingContext2D} */ (wbuffer.getContext(
+      '2d',
+    ));
 
     width = wbuffer.width;
     height = wbuffer.height;
