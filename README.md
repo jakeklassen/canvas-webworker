@@ -2,4 +2,4 @@
 
 Using web worker and offscreen canavs.
 
-[Demo](canvas-worker.netlify.app)
+[Demo](https://canvas-worker.netlify.app)
