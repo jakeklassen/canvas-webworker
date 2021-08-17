@@ -1,6 +1,6 @@
-const canvas = /** @type {HTMLCanvasElement} */ (document.querySelector(
-  '#game',
-));
+const canvas = /** @type {HTMLCanvasElement} */ (
+  document.querySelector('#game')
+);
 const buffer = canvas.transferControlToOffscreen();
 
 const worker = new Worker('src/loop.js', {

@@ -118,9 +118,9 @@ function frame(hrt) {
 self.onmessage = (event) => {
   if (event.data.event === 'start') {
     wbuffer = /** @type {OffscreenCanvas} */ event.data.buffer;
-    wctx = /** @type {OffscreenCanvasRenderingContext2D} */ (wbuffer.getContext(
-      '2d',
-    ));
+    wctx = /** @type {OffscreenCanvasRenderingContext2D} */ (
+      wbuffer.getContext('2d')
+    );
 
     width = wbuffer.width;
     height = wbuffer.height;
