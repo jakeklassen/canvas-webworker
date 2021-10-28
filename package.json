@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "npx serve -n ."
+    "start": "npx serve@latest -n ."
   },
   "devDependencies": {
     "@types/mainloop.js": "^1.0.5",
