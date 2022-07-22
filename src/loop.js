@@ -34,7 +34,7 @@ const createSquare = () => {
   };
 };
 
-const squares = Array.from({ length: 4000 }, createSquare);
+const squares = Array.from({ length: 4_000 }, createSquare);
 
 let width = 0;
 let height = 0;
