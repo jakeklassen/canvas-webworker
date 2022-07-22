@@ -1,18 +1,16 @@
 import { createSquare } from './utils/create-square.js';
 import { createFixedLengthList } from './utils/fixed-length-list.js';
 
+const canvas = /** @type {HTMLCanvasElement} */ (
+  document.querySelector('#game')
+);
+
+const ctx = /** @type {CanvasRenderingContext2D } */ (canvas.getContext('2d'));
+
 const squares = Array.from({ length: 8_000 }, createSquare);
 
-let width = 0;
-let height = 0;
-/**
- * @type {OffscreenCanvas}
- */
-let wbuffer;
-/**
- * @type {OffscreenCanvasRenderingContext2D}
- */
-let wctx;
+let width = canvas.width;
+let height = canvas.height;
 let last = performance.now();
 let dt = 0;
 
@@ -37,10 +35,10 @@ function frame(hrt) {
     1 / (dts.list.reduce((a, b) => a + b, 0) / dts.list.length),
   );
 
-  wctx.clearRect(0, 0, 640, 480);
+  ctx.clearRect(0, 0, 640, 480);
 
   for (const square of squares) {
-    wctx.fillStyle = square.color;
+    ctx.fillStyle = square.color;
     square.position.x += square.velocity.x * dt;
     square.position.y += square.velocity.y * dt;
 
@@ -60,7 +58,7 @@ function frame(hrt) {
       square.velocity.y *= -1;
     }
 
-    wctx.fillRect(
+    ctx.fillRect(
       square.position.x,
       square.position.y,
       square.collider.width,
@@ -68,30 +66,13 @@ function frame(hrt) {
     );
   }
 
-  wctx.fillStyle = 'black';
-  wctx.fillRect(540, 0, 100, 60);
-  wctx.fillStyle = 'white';
-  wctx.fillText(averageFps.toString(), width - 30, 20);
-  wctx.fillText(`squares: ${squares.length}`, width - 80, 40);
-  // wctx.fillText(`{ x: ${square.position.x}, y: ${square.position.y} }`, 10, 40);
-  // wctx.fillText(`{ hrt: ${hrt} }`, 10, 60);
+  ctx.fillStyle = 'black';
+  ctx.fillRect(540, 0, 100, 60);
+  ctx.fillStyle = 'white';
+  ctx.fillText(averageFps.toString(), width - 30, 20);
+  ctx.fillText(`squares: ${squares.length}`, width - 80, 40);
 
   last = hrt;
 }
 
-/**
- * @param {MessageEvent} event
- */
-self.onmessage = (event) => {
-  if (event.data.event === 'start') {
-    wbuffer = /** @type {OffscreenCanvas} */ event.data.buffer;
-    wctx = /** @type {OffscreenCanvasRenderingContext2D} */ (
-      wbuffer.getContext('2d')
-    );
-
-    width = wbuffer.width;
-    height = wbuffer.height;
-
-    requestAnimationFrame(frame);
-  }
-};
+requestAnimationFrame(frame);

@@ -1,3 +1,5 @@
+export {};
+
 const canvas = /** @type {HTMLCanvasElement} */ (
   document.querySelector('#game')
 );
